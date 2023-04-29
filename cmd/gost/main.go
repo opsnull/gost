@@ -36,6 +36,10 @@ func init() {
 	flag.StringVar(&baseCfg.route.Interface, "I", "", "Interface to bind")
 	flag.BoolVar(&baseCfg.Debug, "D", false, "enable debug log")
 	flag.BoolVar(&printVersion, "V", false, "print version")
+
+	flag.StringVar(&httpProxy, "httpProxy", "http://127.0.0.1:1080", "gost 隧道客户端监听地址")
+	flag.StringVar(&listenAddr, "listenAddr", ":1090", "OpenAI HTTP API 代理监听地址")
+
 	if pprofEnabled {
 		flag.StringVar(&pprofAddr, "P", ":6060", "profiling HTTP server address")
 	}
@@ -90,6 +94,8 @@ func main() {
 		log.Log(err)
 		os.Exit(1)
 	}
+
+	proxy()
 
 	select {}
 }
